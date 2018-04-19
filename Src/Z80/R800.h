@@ -154,7 +154,7 @@ typedef UInt32 SystemTime;
 ** big endian host machines.
 ******************************************************
 */
-typedef union {
+typedef union RegisterPair {
   struct { 
 #ifdef __BIG_ENDIAN__
       UInt8 h;

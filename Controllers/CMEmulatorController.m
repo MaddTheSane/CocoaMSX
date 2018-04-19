@@ -57,7 +57,7 @@
 #include "ArchEvent.h"
 #include "ArchSound.h"
 
-typedef NS_OPTIONS(unsigned int, CMEmulatorBitMask) {
+typedef NS_OPTIONS(unsigned int, CMEmulatorLEDBitMask) {
     LED_CAPS_LOCK = 0x001,
     LED_CODE      = 0x002,
     LED_TURBO_R   = 0x004,
@@ -74,9 +74,9 @@ typedef NS_OPTIONS(unsigned int, CMEmulatorBitMask) {
 
 - (CMAppDelegate *)theApp;
 
-- (CMEmulatorBitMask)ledState;
-- (void)toggleIfLedState:(CMEmulatorBitMask)state
-              ledBitMask:(CMEmulatorBitMask)bitMask
+- (CMEmulatorLEDBitMask)ledState;
+- (void)toggleIfLedState:(CMEmulatorLEDBitMask)state
+              ledBitMask:(CMEmulatorLEDBitMask)bitMask
                imageView:(NSImageView *)imageView
            offStateImage:(NSString *)offImage
             onStateImage:(NSString *)onImage;
@@ -691,9 +691,9 @@ CMEmulatorController *theEmulator = nil; // FIXME
     [self start];
 }
 
-- (CMEmulatorBitMask)ledState
+- (CMEmulatorLEDBitMask)ledState
 {
-    CMEmulatorBitMask state = 0;
+    CMEmulatorLEDBitMask state = 0;
     if (ledGetCapslock())
         state |= LED_CAPS_LOCK;
     if (ledGetKana())
@@ -718,8 +718,8 @@ CMEmulatorController *theEmulator = nil; // FIXME
     return state;
 }
 
-- (void)toggleIfLedState:(CMEmulatorBitMask)state
-              ledBitMask:(CMEmulatorBitMask)bitMask
+- (void)toggleIfLedState:(CMEmulatorLEDBitMask)state
+              ledBitMask:(CMEmulatorLEDBitMask)bitMask
                imageView:(NSImageView *)imageView
            offStateImage:(NSString *)offImage
             onStateImage:(NSString *)onImage
@@ -735,7 +735,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
 
 - (void)updateFps:(CGFloat)fps
 {
-    CMEmulatorBitMask state = [self ledState];
+    CMEmulatorLEDBitMask state = [self ledState];
     
     [self toggleIfLedState:state
                 ledBitMask:LED_FDD0
