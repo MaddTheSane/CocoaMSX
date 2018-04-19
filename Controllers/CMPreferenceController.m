@@ -137,7 +137,7 @@ static NSArray *keysInOrderOfAppearance;
 - (BOOL)updateMachineFeed:(NSError **)error;
 - (BOOL)isDownloadQueuedForMachine:(CMMachine *)machine;
 
-- (NSArray *)machinesAvailableForDownload;
+- (NSArray<CMMachine*> *)machinesAvailableForDownload;
 - (void)synchronizeMachineArrayController;
 - (void)synchronizeSettings;
 - (void)updateCurrentConfigurationInformation;
@@ -356,7 +356,7 @@ extern CMEmulatorController *theEmulator;
 
 - (void)performBlockOnMainThread:(void(^)(void))block
 {
-    if (dispatch_get_current_queue() == dispatch_get_main_queue())
+    if ([NSThread isMainThread])
     {
         block();
     }
@@ -971,22 +971,22 @@ extern CMEmulatorController *theEmulator;
     NSString *bundleResourcePath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
     NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:bundleResourcePath];
     
-    CMSetIntPref(@"audioEnablePsg", [[defaults objectForKey:@"audioEnablePsg"] boolValue]);
+    CMSetBoolPref(@"audioEnablePsg", [[defaults objectForKey:@"audioEnablePsg"] boolValue]);
     CMSetIntPref(@"audioVolumePsg", [[defaults objectForKey:@"audioVolumePsg"] integerValue]);
     CMSetIntPref(@"audioBalancePsg", [[defaults objectForKey:@"audioBalancePsg"] integerValue]);
-    CMSetIntPref(@"audioEnableScc", [[defaults objectForKey:@"audioEnableScc"] boolValue]);
+    CMSetBoolPref(@"audioEnableScc", [[defaults objectForKey:@"audioEnableScc"] boolValue]);
     CMSetIntPref(@"audioVolumeScc", [[defaults objectForKey:@"audioVolumeScc"] integerValue]);
     CMSetIntPref(@"audioBalanceScc", [[defaults objectForKey:@"audioBalanceScc"] integerValue]);
-    CMSetIntPref(@"audioEnableMsxMusic", [[defaults objectForKey:@"audioEnableMsxMusic"] boolValue]);
+    CMSetBoolPref(@"audioEnableMsxMusic", [[defaults objectForKey:@"audioEnableMsxMusic"] boolValue]);
     CMSetIntPref(@"audioVolumeMsxMusic", [[defaults objectForKey:@"audioVolumeMsxMusic"] integerValue]);
     CMSetIntPref(@"audioBalanceMsxMusic", [[defaults objectForKey:@"audioBalanceMsxMusic"] integerValue]);
-    CMSetIntPref(@"audioEnableMsxAudio", [[defaults objectForKey:@"audioEnableMsxAudio"] boolValue]);
+    CMSetBoolPref(@"audioEnableMsxAudio", [[defaults objectForKey:@"audioEnableMsxAudio"] boolValue]);
     CMSetIntPref(@"audioVolumeMsxAudio", [[defaults objectForKey:@"audioVolumeMsxAudio"] integerValue]);
     CMSetIntPref(@"audioBalanceMsxAudio", [[defaults objectForKey:@"audioBalanceMsxAudio"] integerValue]);
-    CMSetIntPref(@"audioEnableKeyboard", [[defaults objectForKey:@"audioEnableKeyboard"] boolValue]);
+    CMSetBoolPref(@"audioEnableKeyboard", [[defaults objectForKey:@"audioEnableKeyboard"] boolValue]);
     CMSetIntPref(@"audioVolumeKeyboard", [[defaults objectForKey:@"audioVolumeKeyboard"] integerValue]);
     CMSetIntPref(@"audioBalanceKeyboard", [[defaults objectForKey:@"audioBalanceKeyboard"] integerValue]);
-    CMSetIntPref(@"audioEnableMoonSound", [[defaults objectForKey:@"audioEnableMoonSound"] boolValue]);
+    CMSetBoolPref(@"audioEnableMoonSound", [[defaults objectForKey:@"audioEnableMoonSound"] boolValue]);
     CMSetIntPref(@"audioVolumeMoonSound", [[defaults objectForKey:@"audioVolumeMoonSound"] integerValue]);
     CMSetIntPref(@"audioBalanceMoonSound", [[defaults objectForKey:@"audioBalanceMoonSound"] integerValue]);
 }
