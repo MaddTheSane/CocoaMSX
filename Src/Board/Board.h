@@ -64,11 +64,11 @@ typedef struct {
 
     void* cpuRef;
 
-    void   (*destroy)();
-    void   (*softReset)();
-    void   (*loadState)();
-    void   (*saveState)();
-    int    (*getRefreshRate)();
+    void   (*destroy)(void);
+    void   (*softReset)(void);
+    void   (*loadState)(void);
+    void   (*saveState)(void);
+    int    (*getRefreshRate)(void);
     UInt8* (*getRamPage)(int);
     void   (*setDataBus)(void*, UInt8, UInt8, int);
 
