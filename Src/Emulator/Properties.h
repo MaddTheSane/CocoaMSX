@@ -337,20 +337,20 @@ typedef struct {
     int  masterEnable;
     MixerChannel mixerChannel[MIXER_CHANNEL_TYPE_COUNT];
     int  log[PROP_MAXPATH];
-    struct {
+    struct YKIn {
         int  type;
         char name[256];
         char desc[256];
         char fileName[PROP_MAXPATH];
         int  channel;
     } YkIn;
-    struct {
+    struct MIDIIn {
         int  type;
         char name[256];
         char desc[256];
         char fileName[PROP_MAXPATH];
     } MidiIn;
-    struct {
+    struct MIDIOut {
         int  type;
         char name[256];
         char desc[256];
@@ -435,20 +435,20 @@ typedef struct {
 } FileHistory;
 
 typedef struct {
-    struct {
+    struct LPT {
         int  type;
         int  emulation;
         char name[256];
         char portName[PROP_MAXPATH];
         char fileName[PROP_MAXPATH];
     } Lpt;
-    struct {
+    struct COM {
         int  type;
         char name[256];
         char portName[PROP_MAXPATH];
         char fileName[PROP_MAXPATH];
     } Com;
-    struct {
+    struct ETH {
         int disabled;
         int ethIndex;
         char macAddress[64];
@@ -465,7 +465,7 @@ typedef struct {
     int showStatePreview;
     int usePngScreenshots;
     char themeName[128];
-    struct {  
+    struct WindowPos {  
         long left; 
         long top; 
         long width; 
