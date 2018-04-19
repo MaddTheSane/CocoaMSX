@@ -17,10 +17,10 @@
 	NSView *_accessoryView; // weak ref since it's a subview.
 	NSMutableDictionary *_identifiers; // map of identifiers to items.
 	NSMutableArray *_selectedItems; // all selected items in all groups; see note below.
-	float _lastWidth; // previous width of view from when we last resized.
+	CGFloat _lastWidth; // previous width of view from when we last resized.
 	NSInteger _firstCollapsedGroup; // index of first group collapsed into a popup.
-	float _totalGroupsWidthForPopups; // total width needed to show all groups expanded (excluding padding and accessory).
-	float _totalGroupsWidth; // total width needed to show all groups as native-width popups (excluding padding and accessory).
+	CGFloat _totalGroupsWidthForPopups; // total width needed to show all groups expanded (excluding padding and accessory).
+	CGFloat _totalGroupsWidth; // total width needed to show all groups as native-width popups (excluding padding and accessory).
 	BOOL _smartResizeEnabled; // whether to do our clever collapsing/expanding of buttons when resizing (Smart Resizing).
 }
 

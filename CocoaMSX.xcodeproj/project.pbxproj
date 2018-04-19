@@ -992,8 +992,8 @@
 		FE88FF57169B9AC5004B483B /* CMKeyCaptureFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMKeyCaptureFieldCell.m; sourceTree = "<group>"; };
 		FE88FF5B169BAB8B004B483B /* CMHeaderRowCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMHeaderRowCell.h; sourceTree = "<group>"; };
 		FE88FF5C169BAB8B004B483B /* CMHeaderRowCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMHeaderRowCell.m; sourceTree = "<group>"; };
-		FE89754B1614038D00F07D76 /* CMAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMAppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		FE89754C1614038D00F07D76 /* CMAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		FE89754B1614038D00F07D76 /* CMAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMAppDelegate.h; sourceTree = "<group>"; usesTabs = 1; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		FE89754C1614038D00F07D76 /* CMAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMAppDelegate.m; sourceTree = "<group>"; usesTabs = 1; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FE90EAE21BA78FD800D44C90 /* CocoaSema.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CocoaSema.c; sourceTree = "<group>"; };
 		FE90EAE41BA7921600D44C90 /* CocoaEvent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CocoaEvent.c; sourceTree = "<group>"; };
 		FE99C538160E58FD00843DC8 /* CMFrameCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMFrameCounter.h; sourceTree = "<group>"; };
@@ -2009,6 +2009,7 @@
 			);
 			path = Categories;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		FE9C6A29161AA39F00513A6D /* UI */ = {
 			isa = PBXGroup;
@@ -2047,6 +2048,7 @@
 			);
 			path = Controllers;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		FEEF38AC163C82D0005F7DC8 /* Cocoa */ = {
 			isa = PBXGroup;
