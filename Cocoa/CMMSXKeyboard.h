@@ -22,7 +22,7 @@
  */
 #import <Foundation/Foundation.h>
 
-enum
+typedef NS_OPTIONS(NSUInteger, CMMSXKeyState)
 {
     // State Flags
     CMMSXKeyStateDefault = 0,
@@ -30,8 +30,6 @@ enum
     CMMSXKeyStateGraph   = 2,
     CMMSXKeyStateControl = 4,
 };
-
-typedef NSUInteger CMMSXKeyState;
 
 @interface CMMSXKeyCombination : NSObject
 

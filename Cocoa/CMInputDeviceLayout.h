@@ -30,7 +30,7 @@ typedef void (^CMMappingEnumeratorBlock)(NSUInteger virtualCode, CMInputMethod *
 
 @interface CMInputDeviceLayout : NSObject<NSCoding>
 {
-    NSMutableDictionary *inputs;
+    NSMutableDictionary<NSNumber*,CMInputMethod*> *inputs;
 }
 
 - (void)loadLayout:(CMInputDeviceLayout *)layout;
