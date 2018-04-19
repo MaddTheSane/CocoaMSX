@@ -20,11 +20,49 @@ A million repetitions of "a"
 34AA973C D4C4DAA4 F61EEB2B DBAD2731 6534016F
 */
 
+
 #include <cassert>
 #include <cstdio>
 #include <string.h>
 #include "Sha1.h"
 
+#ifdef __APPLE__
+
+SHA1::SHA1(): digest("") {
+	CC_SHA1_Init(&ctx);
+}
+
+SHA1::~SHA1() {
+	
+}
+
+void SHA1::update(const UInt8* data, unsigned len) {
+	CC_SHA1_Update(&ctx, data, len);
+}
+
+const std::string& SHA1::hex_digest() {
+	if (digest.empty()) {
+		finalize();
+	}
+	assert(!digest.empty());
+	return digest;
+}
+
+void SHA1::finalize()
+{
+	unsigned char md[CC_SHA1_DIGEST_LENGTH];
+	CC_SHA1_Final(md, &ctx);
+	
+	char s[3];
+	for (int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
+		unsigned char mdi = md[i];
+		snprintf(s, sizeof(s), "%02x", mdi);
+		digest += std::string(s);
+	}
+}
+
+
+#else
 using std::string;
 
 // Rotate x bits to the left
@@ -206,3 +244,5 @@ const string& SHA1::hex_digest()
 	assert(!digest.empty());
 	return digest;
 }
+
+#endif
