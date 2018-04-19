@@ -1065,7 +1065,7 @@
 		FEF40ED1160DB83B009170A9 /* CocoaVideoIn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CocoaVideoIn.c; sourceTree = "<group>"; };
 		FEF40ED2160DB83B009170A9 /* CMMsxDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMMsxDisplayView.h; sourceTree = "<group>"; };
 		FEF40ED3160DB83B009170A9 /* CMMsxDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMMsxDisplayView.m; sourceTree = "<group>"; };
-		FEFB43B916321F2F00EAE462 /* CocoaMSX-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CocoaMSX-Info.plist"; path = "../CocoaMSX-Info.plist"; sourceTree = "<group>"; };
+		FEFB43B916321F2F00EAE462 /* CocoaMSX-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CocoaMSX-Info.plist"; sourceTree = SOURCE_ROOT; };
 		FEFF3F701935AA1C00434DED /* CMIsMachineInstalled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMIsMachineInstalled.h; sourceTree = "<group>"; };
 		FEFF3F711935AA1C00434DED /* CMIsMachineInstalled.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMIsMachineInstalled.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FEFF3F731935AFB500434DED /* CMIsMachineDownloadable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMIsMachineDownloadable.h; sourceTree = "<group>"; };
