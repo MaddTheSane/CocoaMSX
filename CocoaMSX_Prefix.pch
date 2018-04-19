@@ -15,3 +15,12 @@
 #define CMSetBoolPref(key, value) [[NSUserDefaults standardUserDefaults] setBool:value forKey:key]
 #define CMGetFloatPref(key) [[NSUserDefaults standardUserDefaults] floatForKey:key]
 #define CMSetFloatPref(key, value) [[NSUserDefaults standardUserDefaults] setFloat:value forKey:key]
+
+#ifdef __cplusplus
+#include <string>
+#include <vector>
+#include <iostream>
+#include <map>
+#include <cstdio>
+#include <cstring>
+#endif
