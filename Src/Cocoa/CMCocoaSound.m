@@ -106,12 +106,12 @@ static OSStatus audioCallback(void *inRefCon,
     desc.componentFlags = 0;
     desc.componentFlagsMask = 0;
     
-    comp = AudioComponentFindNext(NULL, &desc); // FIXME: deprec
+    comp = AudioComponentFindNext(NULL, &desc);
     if (!comp)
         return NO;
     
     // Open & initialize the default output audio unit
-    result = AudioComponentInstanceNew(comp, &outputAudioUnit); // FIXME: deprec
+    result = AudioComponentInstanceNew(comp, &outputAudioUnit);
     if (result != noErr)
         return NO;
     
