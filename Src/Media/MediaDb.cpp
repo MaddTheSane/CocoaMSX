@@ -95,7 +95,7 @@ static string parseCountryCode(const string& code)
 
 static bool iequals(const string& a, const string& b)
 {
-    unsigned int sz = a.size();
+    size_t sz = a.size();
     if (b.size() != sz)
         return false;
     for (unsigned int i = 0; i < sz; ++i)
@@ -1284,7 +1284,7 @@ extern "C" const char* mediaDbGetPrettyString(MediaType* mediaType)
             for (int i = 0; mediaType->remark[i] != '\r' && mediaType->remark[i] != '\n' && mediaType->remark[i] != '\0'; i++) {
                 remark += mediaType->remark[i];
             }
-            int remarkLength = 35 - mediaType->start.length();
+            ssize_t remarkLength = 35 - mediaType->start.length();
             if (remarkLength > 0) {
                 if (remark.length() > 35) {
                     remark = remark.substr(0, 35) + "...";
