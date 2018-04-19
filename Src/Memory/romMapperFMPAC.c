@@ -99,7 +99,7 @@ static void loadState(RomMapperFMPAC* rm)
 
 static void destroy(RomMapperFMPAC* rm)
 {
-    sramSave(rm->sramFilename, rm->sram, 0x1ffe, pacHeader, strlen(pacHeader));
+    sramSave(rm->sramFilename, rm->sram, 0x1ffe, pacHeader, (int)strlen(pacHeader));
 
     ioPortUnregister(0x7c);
     ioPortUnregister(0x7d);
@@ -268,7 +268,7 @@ int romMapperFMPACCreate(const char* filename, UInt8* romData,
     rm->sramEnabled = 0;
     strcpy(rm->sramFilename, sramCreateFilename(filename));
 
-    sramLoad(rm->sramFilename, rm->sram, 0x1ffe, pacHeader, strlen(pacHeader));
+    sramLoad(rm->sramFilename, rm->sram, 0x1ffe, pacHeader, (int)strlen(pacHeader));
 
     slotMapPage(rm->slot, rm->sslot, rm->startPage,     rm->romData, 0, 0);
     slotMapPage(rm->slot, rm->sslot, rm->startPage + 1, rm->romData + 0x2000, 0, 0);

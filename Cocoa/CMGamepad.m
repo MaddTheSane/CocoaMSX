@@ -290,7 +290,7 @@ static void gamepadInputValueCallback(void *context, IOReturn result, void *send
                  if (usage == kHIDUsage_GD_X || usage == kHIDUsage_GD_Y)
                  {
                      IOHIDValueRef tIOHIDValueRef;
-                     if (IOHIDDeviceGetValue(hidDevice, element, &tIOHIDValueRef) == kIOReturnSuccess)
+                     if (IOHIDDeviceGetValue(self->hidDevice, element, &tIOHIDValueRef) == kIOReturnSuccess)
                      {
                          IOHIDElementCookie cookie = IOHIDElementGetCookie(element);
                          NSInteger integerValue = IOHIDValueGetIntegerValue(tIOHIDValueRef);

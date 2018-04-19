@@ -585,7 +585,7 @@ void  wd33c93SaveState(WD33C93* wd33c93)
     saveStateSet(state, "blockCounter", wd33c93->blockCounter);
     saveStateSet(state, "tc",           wd33c93->tc);
     saveStateSet(state, "maxDev",       wd33c93->maxDev);
-    saveStateSet(state, "pBuf",         wd33c93->pBuf - wd33c93->buffer);
+    saveStateSet(state, "pBuf",         (UInt32)(wd33c93->pBuf - wd33c93->buffer));
     //saveStateGet(state, "timeout",    wd33c93->timeout);
     //saveStateGet(state, "timerRunning", wd33c93->timerRunning);
 

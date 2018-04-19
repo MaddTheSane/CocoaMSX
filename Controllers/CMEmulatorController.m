@@ -306,9 +306,9 @@ CMEmulatorController *theEmulator = nil; // FIXME
              NSNumber *index = @(idx);
              NSNumber *type = [NSNumber numberWithInt:[obj intValue]];
              
-             [romTypes setObject:type forKey:index];
-             [romTypeIndices setObject:index forKey:type];
-             [romTypeNames addObject:[romTypeMap valueForKey:obj]];
+			 [self->romTypes setObject:type forKey:index];
+             [self->romTypeIndices setObject:index forKey:type];
+             [self->romTypeNames addObject:[romTypeMap valueForKey:obj]];
          }];
         
         resourcePath = [[NSBundle mainBundle] pathForResource:@"DiskSizes"
@@ -325,8 +325,8 @@ CMEmulatorController *theEmulator = nil; // FIXME
                                      }];
         
         [sortedDiskSizes enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
-            [disketteSizes setObject:@([key integerValue]) forKey:@(idx)];
-            [disketteSizeDescriptions addObject:[diskSizeMap objectForKey:key]];
+            [self->disketteSizes setObject:@([key integerValue]) forKey:@(idx)];
+            [self->disketteSizeDescriptions addObject:[diskSizeMap objectForKey:key]];
         }];
     }
     
@@ -457,7 +457,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
     
     // Initialize the emulator
     
-    properties->emulation.speed = [self emulationFrequencyFromPercentage:CMGetIntPref(@"emulationSpeedPercentage")];
+    properties->emulation.speed = (int)[self emulationFrequencyFromPercentage:CMGetIntPref(@"emulationSpeedPercentage")];
     properties->emulation.syncMethod = P_EMU_SYNCTOVBLANKASYNC;
     properties->emulation.enableFdcTiming = CMGetBoolPref(@"enableFloppyTiming");
     properties->emulation.vdpSyncMode = CMGetIntPref(@"vdpSyncMode");
@@ -789,7 +789,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
     if ([self isStarted])
     {
         properties->video.scanlinesEnable = (value > 0);
-        properties->video.scanlinesPct = 100 - value;
+        properties->video.scanlinesPct = (int)(100 - value);
         
         videoUpdateAll(video, properties);
     }
@@ -822,7 +822,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
 
 - (void)setEmulationSpeedAsPercentage:(NSInteger)percentage
 {
-    properties->emulation.speed = [self emulationFrequencyFromPercentage:percentage];
+    properties->emulation.speed = (int)[self emulationFrequencyFromPercentage:percentage];
     emulatorSetFrequency(properties->emulation.speed, NULL);
 }
 
@@ -894,8 +894,8 @@ CMEmulatorController *theEmulator = nil; // FIXME
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray *recentURLs = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
         @synchronized(self) {
-            [recentDocuments removeAllObjects];
-            [recentDocuments addObjectsFromArray:recentURLs];
+            [self->recentDocuments removeAllObjects];
+            [self->recentDocuments addObjectsFromArray:recentURLs];
         }
         
         NSLog(@"Added %ld recent documents to local copy", [recentURLs count]);
@@ -954,7 +954,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
     [recentCopy enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
     {
         NSString *extension = [[obj pathExtension] lowercaseString];
-        if ([openRomFileTypes containsObject:extension])
+        if ([self->openRomFileTypes containsObject:extension])
         {
             [self addRecentMediaItemWithURL:obj
                                      action:@selector(insertRecentCartridgeA:)
@@ -963,7 +963,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
                                      action:@selector(insertRecentCartridgeB:)
                                      parent:recentCartridgesB];
         }
-        else if ([openDiskFileTypes containsObject:extension])
+        else if ([self->openDiskFileTypes containsObject:extension])
         {
             [self addRecentMediaItemWithURL:obj
                                      action:@selector(insertRecentDiskA:)
@@ -972,7 +972,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
                                      action:@selector(insertRecentDiskB:)
                                      parent:recentDisksB];
         }
-        else if ([openCassetteFileTypes containsObject:extension])
+        else if ([self->openCassetteFileTypes containsObject:extension])
         {
             [self addRecentMediaItemWithURL:obj
                                      action:@selector(insertRecentCassette:)
@@ -981,7 +981,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
     }];
     
     // Add dividers, where appropriate
-    int numberOfCartridgeItems = [[recentCartridgesA submenu] numberOfItems];
+    NSInteger numberOfCartridgeItems = [[recentCartridgesA submenu] numberOfItems];
     if (numberOfCartridgeItems > 1)
     {
         [[recentCartridgesA submenu] insertItem:[NSMenuItem separatorItem]
@@ -990,7 +990,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
                                              atIndex:numberOfCartridgeItems - 1];
     }
     
-    int numberOfDiskItems = [[recentDisksA submenu] numberOfItems];
+    NSInteger numberOfDiskItems = [[recentDisksA submenu] numberOfItems];
     if (numberOfDiskItems > 1)
     {
         [[recentDisksA submenu] insertItem:[NSMenuItem separatorItem]
@@ -999,7 +999,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
                                         atIndex:numberOfDiskItems - 1];
     }
     
-    int numberOfCassetteItems = [[recentCassettes submenu] numberOfItems];
+    NSInteger numberOfCassetteItems = [[recentCassettes submenu] numberOfItems];
     if (numberOfCassetteItems > 1)
     {
         [[recentCassettes submenu] insertItem:[NSMenuItem separatorItem]
@@ -1240,10 +1240,10 @@ CMEmulatorController *theEmulator = nil; // FIXME
                  
                  RomType type = ROM_UNKNOWN;
                  
-                 if ([romTypeDropdown isEnabled])
+                 if ([self->romTypeDropdown isEnabled])
                  {
-                     int romTypeIndex = [romTypeDropdown indexOfItem:[romTypeDropdown selectedItem]];
-                     type = [[romTypes objectForKey:@(romTypeIndex)] intValue];
+                     NSInteger romTypeIndex = [self->romTypeDropdown indexOfItem:[self->romTypeDropdown selectedItem]];
+                     type = [[self->romTypes objectForKey:@(romTypeIndex)] intValue];
                  }
                  
                  [self insertCartridge:[[panel URL] path] slot:slot type:type];
@@ -1261,7 +1261,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
     
     emulatorSuspend();
     
-    if (insertCartridge(properties, slot, [cartridge UTF8String], NULL, type, 0))
+    if (insertCartridge(properties, (int)slot, [cartridge fileSystemRepresentation], NULL, type, 0))
     {
         [self addToRecentItems:cartridge];
     }
@@ -1313,7 +1313,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
                  [[CMPreferences preferences] setDiskDirectory:[[panel directoryURL] path]];
                  [self insertDiskAtPath:[[panel URL] path]
                                    slot:slot
-                         mountFoldersRw:[mountFolderCopyCheckbox isEnabled] && [mountFolderCopyCheckbox state] == NSOnState];
+                         mountFoldersRw:[self->mountFolderCopyCheckbox isEnabled] && [self->mountFolderCopyCheckbox state] == NSOnState];
              }
          }];
     }
@@ -1338,7 +1338,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
     if (![self isStarted])
         return;
     
-    actionCartRemove(slot);
+    actionCartRemove((int)slot);
     
     // Reset last used state names
     [self setLastLoadedState:nil];
@@ -1475,11 +1475,11 @@ CMEmulatorController *theEmulator = nil; // FIXME
     if (isDirectory) {
         // Insert directory
         strcpy(properties->media.disks[slot].directory, fileCstr);
-        insertDiskette(properties, slot, fileCstr, NULL, 0);
+        insertDiskette(properties, (int)slot, fileCstr, NULL, 0);
     } else {
         // Insert disk file
          
-        insertDiskette(properties, slot, fileCstr, NULL, 0);
+        insertDiskette(properties, (int)slot, fileCstr, NULL, 0);
         [[CMPreferences preferences] setDiskDirectory:path];
         
         [self addToRecentItems:path];
@@ -1519,8 +1519,8 @@ CMEmulatorController *theEmulator = nil; // FIXME
              {
                  [[CMPreferences preferences] setDiskDirectory:[[panel directoryURL] path]];
                  
-                 int disketteSizeIndex = [disketteSizeDropdown indexOfItem:[disketteSizeDropdown selectedItem]];
-                 int size = [[disketteSizes objectForKey:@(disketteSizeIndex)] intValue];
+				 NSInteger disketteSizeIndex = [self->disketteSizeDropdown indexOfItem:[self->disketteSizeDropdown selectedItem]];
+                 int size = [[self->disketteSizes objectForKey:@(disketteSizeIndex)] intValue];
                  
                  NSString *path = [[panel URL] path];
                  if ([self createBlankDiskAtPath:path
@@ -1581,7 +1581,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
 
 - (void)ejectDiskFromSlot:(NSInteger)slot
 {
-    actionDiskRemove(slot);
+    actionDiskRemove((int)slot);
 	
     // If the user is ejecting a disk from the first slot, reset last used
     // state names
@@ -2018,7 +2018,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
         path = [parentPath stringByAppendingPathComponent:prefix];
         path = [path stringByAppendingPathExtension:ext];
         
-        for (int i = 2; [[NSFileManager defaultManager] fileExistsAtPath:path]; i++) {
+        for (NSInteger i = 2; [[NSFileManager defaultManager] fileExistsAtPath:path]; i++) {
             path = [[parentPath stringByAppendingPathComponent:prefix] stringByAppendingFormat:@" %zd", i];
             path = [path stringByAppendingPathExtension:ext];
         }
@@ -2402,7 +2402,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
      {
          if (file)
          {
-             NSImage *image = [screen captureScreen:YES];
+             NSImage *image = [self->screen captureScreen:YES];
              if (image && [image representations].count > 0)
              {
                  NSBitmapImageRep *rep = (NSBitmapImageRep *) [[image representations] firstObject];
@@ -2434,7 +2434,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
          {
              if (file)
              {
-                 mixerStartLog(mixer, [file UTF8String]);
+                 mixerStartLog(self->mixer, [file fileSystemRepresentation]);
                  [CMPreferences preferences].audioCaptureDirectory = path;
              }
              
@@ -2492,7 +2492,7 @@ CMEmulatorController *theEmulator = nil; // FIXME
              
              const char *recording = [file UTF8String];
              
-             strncpy(properties->filehistory.videocap, recording, PROP_MAXPATH - 1);
+             strncpy(self->properties->filehistory.videocap, recording, PROP_MAXPATH - 1);
              
              emulatorStop();
              emulatorStart(recording);
@@ -2675,35 +2675,35 @@ void archTrap(UInt8 value)
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->video.brightness = newValue;
+            properties->video.brightness = (int)newValue;
             videoUpdateAll(video, properties);
         }
         else if ([keyPath isEqualToString:@"videoContrast"])
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->video.contrast = newValue;
+            properties->video.contrast = (int)newValue;
             videoUpdateAll(video, properties);
         }
         else if ([keyPath isEqualToString:@"videoSaturation"])
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->video.saturation = newValue;
+            properties->video.saturation = (int)newValue;
             videoUpdateAll(video, properties);
         }
         else if ([keyPath isEqualToString:@"videoGamma"])
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->video.gamma = newValue;
+            properties->video.gamma = (int)newValue;
             videoUpdateAll(video, properties);
         }
         else if ([keyPath isEqualToString:@"videoRfModulation"])
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->video.colorSaturationWidth = newValue;
+            properties->video.colorSaturationWidth = (int)newValue;
             properties->video.colorSaturationEnable = (newValue > 0);
             
             videoUpdateAll(video, properties);
@@ -2719,14 +2719,14 @@ void archTrap(UInt8 value)
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->video.monitorType = newValue;
+            properties->video.monitorType = (int)newValue;
             videoUpdateAll(video, properties);
         }
         else if ([keyPath isEqualToString:@"videoColorMode"])
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->video.monitorColor = newValue;
+            properties->video.monitorColor = (int)newValue;
             videoUpdateAll(video, properties);
         }
         else if ([keyPath isEqualToString:@"enableFloppyTiming"])
@@ -2740,14 +2740,14 @@ void archTrap(UInt8 value)
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->sound.mixerChannel[MIXER_CHANNEL_PSG].volume = newValue;
+            properties->sound.mixerChannel[MIXER_CHANNEL_PSG].volume = (int)newValue;
             mixerSetChannelTypeVolume(mixer, MIXER_CHANNEL_PSG, newValue);
         }
         else if ([keyPath isEqualToString:@"audioBalancePsg"])
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->sound.mixerChannel[MIXER_CHANNEL_PSG].pan = newValue;
+            properties->sound.mixerChannel[MIXER_CHANNEL_PSG].pan = (int)newValue;
             mixerSetChannelTypePan(mixer, MIXER_CHANNEL_PSG, newValue);
         }
         else if ([keyPath isEqualToString:@"audioEnablePsg"])
@@ -2761,14 +2761,14 @@ void archTrap(UInt8 value)
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->sound.mixerChannel[MIXER_CHANNEL_SCC].volume = newValue;
+            properties->sound.mixerChannel[MIXER_CHANNEL_SCC].volume = (int)newValue;
             mixerSetChannelTypeVolume(mixer, MIXER_CHANNEL_SCC, newValue);
         }
         else if ([keyPath isEqualToString:@"audioBalanceScc"])
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->sound.mixerChannel[MIXER_CHANNEL_SCC].pan = newValue;
+            properties->sound.mixerChannel[MIXER_CHANNEL_SCC].pan = (int)newValue;
             mixerSetChannelTypePan(mixer, MIXER_CHANNEL_SCC, newValue);
         }
         else if ([keyPath isEqualToString:@"audioEnableScc"])
@@ -2782,14 +2782,14 @@ void archTrap(UInt8 value)
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->sound.mixerChannel[MIXER_CHANNEL_MSXMUSIC].volume = newValue;
+            properties->sound.mixerChannel[MIXER_CHANNEL_MSXMUSIC].volume = (int)newValue;
             mixerSetChannelTypeVolume(mixer, MIXER_CHANNEL_MSXMUSIC, newValue);
         }
         else if ([keyPath isEqualToString:@"audioBalanceMsxMusic"])
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->sound.mixerChannel[MIXER_CHANNEL_MSXMUSIC].pan = newValue;
+            properties->sound.mixerChannel[MIXER_CHANNEL_MSXMUSIC].pan = (int)newValue;
             mixerSetChannelTypePan(mixer, MIXER_CHANNEL_MSXMUSIC, newValue);
         }
         else if ([keyPath isEqualToString:@"audioEnableMsxMusic"])
@@ -2803,14 +2803,14 @@ void archTrap(UInt8 value)
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->sound.mixerChannel[MIXER_CHANNEL_MSXAUDIO].volume = newValue;
+            properties->sound.mixerChannel[MIXER_CHANNEL_MSXAUDIO].volume = (int)newValue;
             mixerSetChannelTypeVolume(mixer, MIXER_CHANNEL_MSXAUDIO, newValue);
         }
         else if ([keyPath isEqualToString:@"audioBalanceMsxAudio"])
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->sound.mixerChannel[MIXER_CHANNEL_MSXAUDIO].pan = newValue;
+            properties->sound.mixerChannel[MIXER_CHANNEL_MSXAUDIO].pan = (int)newValue;
             mixerSetChannelTypePan(mixer, MIXER_CHANNEL_MSXAUDIO, newValue);
         }
         else if ([keyPath isEqualToString:@"audioEnableMsxAudio"])
@@ -2824,14 +2824,14 @@ void archTrap(UInt8 value)
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->sound.mixerChannel[MIXER_CHANNEL_KEYBOARD].volume = newValue;
+            properties->sound.mixerChannel[MIXER_CHANNEL_KEYBOARD].volume = (int)newValue;
             mixerSetChannelTypeVolume(mixer, MIXER_CHANNEL_KEYBOARD, newValue);
         }
         else if ([keyPath isEqualToString:@"audioBalanceKeyboard"])
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->sound.mixerChannel[MIXER_CHANNEL_KEYBOARD].pan = newValue;
+            properties->sound.mixerChannel[MIXER_CHANNEL_KEYBOARD].pan = (int)newValue;
             mixerSetChannelTypePan(mixer, MIXER_CHANNEL_KEYBOARD, newValue);
         }
         else if ([keyPath isEqualToString:@"audioEnableKeyboard"])
@@ -2845,14 +2845,14 @@ void archTrap(UInt8 value)
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->sound.mixerChannel[MIXER_CHANNEL_MOONSOUND].volume = newValue;
+            properties->sound.mixerChannel[MIXER_CHANNEL_MOONSOUND].volume = (int)newValue;
             mixerSetChannelTypeVolume(mixer, MIXER_CHANNEL_MOONSOUND, newValue);
         }
         else if ([keyPath isEqualToString:@"audioBalanceMoonSound"])
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->sound.mixerChannel[MIXER_CHANNEL_MOONSOUND].pan = newValue;
+            properties->sound.mixerChannel[MIXER_CHANNEL_MOONSOUND].pan = (int)newValue;
             mixerSetChannelTypePan(mixer, MIXER_CHANNEL_MOONSOUND, newValue);
         }
         else if ([keyPath isEqualToString:@"audioEnableMoonSound"])
@@ -2866,21 +2866,21 @@ void archTrap(UInt8 value)
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->joy1.typeId = newValue;
+            properties->joy1.typeId = (int)newValue;
             joystickPortSetType(0, newValue);
         }
         else if ([keyPath isEqualToString:@"joystickDevicePort2"])
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             
-            properties->joy2.typeId = newValue;
+            properties->joy2.typeId = (int)newValue;
             joystickPortSetType(1, newValue);
         }
         else if ([keyPath isEqualToString:@"joystickRenshaTurbo"])
         {
             NSInteger newValue = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
 
-            properties->joy1.autofire = newValue; //(int)ceil((11 - 1) * value / 100.0);
+            properties->joy1.autofire = (int)newValue; //(int)ceil((11 - 1) * value / 100.0);
             switchSetRensha(properties->joy1.autofire);
         }
     }
@@ -3069,7 +3069,7 @@ void archTrap(UInt8 value)
 #endif
     
     emulatorSuspend();
-    tapeSetCurrentPos(position);
+    tapeSetCurrentPos((int)position);
     emulatorResume();
 }
 

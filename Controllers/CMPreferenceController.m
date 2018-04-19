@@ -1410,7 +1410,7 @@ objectValueForTableColumn:(NSTableColumn *) tableColumn
     return 1;
 }
 
-- (NSArray *)scopeBar:(MGScopeBar *)theScopeBar itemIdentifiersForGroup:(int)groupNumber
+- (NSArray *)scopeBar:(MGScopeBar *)theScopeBar itemIdentifiersForGroup:(NSInteger)groupNumber
 {
     if (theScopeBar == keyboardScopeBar)
     {
@@ -1444,7 +1444,7 @@ objectValueForTableColumn:(NSTableColumn *) tableColumn
     return nil;
 }
 
-- (NSString *)scopeBar:(MGScopeBar *)theScopeBar labelForGroup:(int)groupNumber
+- (NSString *)scopeBar:(MGScopeBar *)theScopeBar labelForGroup:(NSInteger)groupNumber
 {
     if (theScopeBar == keyboardScopeBar)
     {
@@ -1455,12 +1455,12 @@ objectValueForTableColumn:(NSTableColumn *) tableColumn
     return nil;
 }
 
-- (MGScopeBarGroupSelectionMode)scopeBar:(MGScopeBar *)theScopeBar selectionModeForGroup:(int)groupNumber
+- (MGScopeBarGroupSelectionMode)scopeBar:(MGScopeBar *)theScopeBar selectionModeForGroup:(NSInteger)groupNumber
 {
     return MGRadioSelectionMode;
 }
 
-- (NSString *)scopeBar:(MGScopeBar *)theScopeBar titleOfItem:(id)identifier inGroup:(int)groupNumber
+- (NSString *)scopeBar:(MGScopeBar *)theScopeBar titleOfItem:(id)identifier inGroup:(NSInteger)groupNumber
 {
     if (theScopeBar == keyboardScopeBar)
     {
@@ -1509,7 +1509,7 @@ objectValueForTableColumn:(NSTableColumn *) tableColumn
     return nil;
 }
 
-- (void)scopeBar:(MGScopeBar *)theScopeBar selectedStateChanged:(BOOL)selected forItem:(id)identifier inGroup:(int)groupNumber
+- (void)scopeBar:(MGScopeBar *)theScopeBar selectedStateChanged:(BOOL)selected forItem:(id)identifier inGroup:(NSInteger)groupNumber
 {
     if (theScopeBar == keyboardScopeBar)
     {

@@ -331,7 +331,7 @@ int archMouseGetButtonState(int checkAlways)
 {
     @autoreleasepool
     {
-        return theEmulator.mouse.buttonState;
+        return (int)theEmulator.mouse.buttonState;
     }
 }
 

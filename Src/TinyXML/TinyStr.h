@@ -75,7 +75,7 @@ class TiXmlString
     }
 
     // Return the length of a TiXmlString
-    unsigned length () const
+    size_t length () const
 	{
 		return ( allocated ) ? current_length : 0;
 	}
@@ -117,20 +117,20 @@ class TiXmlString
     }
 
     // single char extraction
-    const char& at (unsigned index) const
+    const char& at (size_t index) const
     {
         assert( index < length ());
         return cstring [index];
     }
 
     // find a char in a string. Return TiXmlString::notfound if not found
-    unsigned find (char lookup) const
+    size_t find (char lookup) const
     {
         return find (lookup, 0);
     }
 
     // find a char in a string from an offset. Return TiXmlString::notfound if not found
-    unsigned find (char tofind, unsigned offset) const;
+    size_t find (char tofind, size_t offset) const;
 
     /*	Function to reserve a big amount of data when we know we'll need it. Be aware that this
 		function clears the content of the TiXmlString if any exists.
@@ -158,20 +158,20 @@ class TiXmlString
     enum {	notfound = 0xffffffff,
             npos = notfound };
 
-    void append (const char *str, int len );
+    void append (const char *str, ssize_t len );
 
   protected :
 
     // The base string
     char * cstring;
     // Number of chars allocated
-    unsigned allocated;
+    size_t allocated;
     // Current string size
-    unsigned current_length;
+    size_t current_length;
 
     // New size computation. It is simplistic right now : it returns twice the amount
     // we need
-    unsigned assign_new_size (unsigned minimum_to_allocate)
+    size_t assign_new_size (size_t minimum_to_allocate)
     {
         return minimum_to_allocate * 2;
     }

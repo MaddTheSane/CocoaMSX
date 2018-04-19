@@ -10,14 +10,14 @@
 
 
 // Selection modes for the buttons within a group.
-typedef enum _MGScopeBarGroupSelectionMode {
+typedef NS_ENUM(NSInteger, MGScopeBarGroupSelectionMode) {
     MGRadioSelectionMode         = 0,	// Exactly one item in the group will be selected at a time (no more, and no less).
     MGMultipleSelectionMode      = 1	// Any number of items in the group (including none) may be selected at a time.
-} MGScopeBarGroupSelectionMode;
+};
 
 
 @class MGScopeBar;
-@protocol MGScopeBarDelegate
+@protocol MGScopeBarDelegate <NSObject>
 
 
 // Methods used to configure the scope bar.
@@ -25,10 +25,10 @@ typedef enum _MGScopeBarGroupSelectionMode {
 
 @required
 - (int)numberOfGroupsInScopeBar:(MGScopeBar *)theScopeBar;
-- (NSArray *)scopeBar:(MGScopeBar *)theScopeBar itemIdentifiersForGroup:(int)groupNumber;
-- (NSString *)scopeBar:(MGScopeBar *)theScopeBar labelForGroup:(int)groupNumber; // return nil or an empty string for no label.
-- (MGScopeBarGroupSelectionMode)scopeBar:(MGScopeBar *)theScopeBar selectionModeForGroup:(int)groupNumber;
-- (NSString *)scopeBar:(MGScopeBar *)theScopeBar titleOfItem:(id)identifier inGroup:(int)groupNumber;
+- (NSArray *)scopeBar:(MGScopeBar *)theScopeBar itemIdentifiersForGroup:(NSInteger)groupNumber;
+- (NSString *)scopeBar:(MGScopeBar *)theScopeBar labelForGroup:(NSInteger)groupNumber; // return nil or an empty string for no label.
+- (MGScopeBarGroupSelectionMode)scopeBar:(MGScopeBar *)theScopeBar selectionModeForGroup:(NSInteger)groupNumber;
+- (NSString *)scopeBar:(MGScopeBar *)theScopeBar titleOfItem:(id)identifier inGroup:(NSInteger)groupNumber;
 
 @optional
 // If the following method is not implemented, all groups except the first will have a separator before them.
@@ -40,7 +40,7 @@ typedef enum _MGScopeBarGroupSelectionMode {
 // Notification methods.
 
 @optional
-- (void)scopeBar:(MGScopeBar *)theScopeBar selectedStateChanged:(BOOL)selected forItem:(id)identifier inGroup:(int)groupNumber;
+- (void)scopeBar:(MGScopeBar *)theScopeBar selectedStateChanged:(BOOL)selected forItem:(id)identifier inGroup:(NSInteger)groupNumber;
 
 
 @end
