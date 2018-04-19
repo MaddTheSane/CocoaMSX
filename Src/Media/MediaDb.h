@@ -215,9 +215,9 @@ MediaType* mediaDbLookup(MediaDb* mediaDb, const void *buffer, int size);
 
 void mediaDbLoad(const char* directory);
 
-void mediaDbCreateRomdb();
-void mediaDbCreateDiskdb();
-void mediaDbCreateCasdb();
+void mediaDbCreateRomdb(void);
+void mediaDbCreateDiskdb(void);
+void mediaDbCreateCasdb(void);
 
 
 MediaType* mediaDbLookupRom(const void *buffer, int size);

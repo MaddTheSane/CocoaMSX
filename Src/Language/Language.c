@@ -71,7 +71,7 @@ static EmuLanguageType  lType = EMU_LANG_UNKNOWN;
 typedef struct {
     EmuLanguageType type;
     char            english[32];
-    char*           (*translation)();
+    char*           (*translation)(void);
 } LanguageInfo;
 
 static LanguageInfo languageInfo[] = {

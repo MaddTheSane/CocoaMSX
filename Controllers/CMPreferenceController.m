@@ -705,8 +705,8 @@ extern CMEmulatorController *theEmulator;
     NSArray *categoriesInSortedOrder = @[@"TypewriterKeys", @"SpecialKeys", @"ModifierKeys", @"FunctionKeys", @"CursorKeys", @"NumericPad", @"Joystick" ];
     NSArray *sortedCategories = [unsortedCategories sortedArrayUsingComparator:^NSComparisonResult(id a, id b)
                                 {
-                                    int orderIndexA = [categoriesInSortedOrder indexOfObject:[a categoryName]];
-                                    int orderIndexB = [categoriesInSortedOrder indexOfObject:[b categoryName]];
+                                    NSInteger orderIndexA = [categoriesInSortedOrder indexOfObject:[a categoryName]];
+                                    NSInteger orderIndexB = [categoriesInSortedOrder indexOfObject:[b categoryName]];
                                     
                                     return orderIndexA - orderIndexB;
                                 }];
@@ -1126,9 +1126,9 @@ extern CMEmulatorController *theEmulator;
 	NSString *chars = [theEvent charactersIgnoringModifiers];
 	if (([theEvent modifierFlags] & NSCommandKeyMask) && [chars isEqualToString:@"{"]) {
 		NSArray<NSToolbarItem *> *items = [toolbar visibleItems];
-		__block int selected = -1;
+		__block NSInteger selected = -1;
 		[items enumerateObjectsUsingBlock:^(NSToolbarItem *item, NSUInteger idx, BOOL * _Nonnull stop) {
-			if ([[item itemIdentifier] isEqualToString:[toolbar selectedItemIdentifier]]) {
+			if ([[item itemIdentifier] isEqualToString:[self->toolbar selectedItemIdentifier]]) {
 				selected = idx;
 				*stop = YES;
 			}
@@ -1145,9 +1145,9 @@ extern CMEmulatorController *theEmulator;
 		}
 	} else if (([theEvent modifierFlags] & NSCommandKeyMask) && [chars isEqualToString:@"}"]) {
 		NSArray<NSToolbarItem *> *items = [toolbar visibleItems];
-		__block int selected = -1;
+		__block NSInteger selected = -1;
 		[items enumerateObjectsUsingBlock:^(NSToolbarItem *item, NSUInteger idx, BOOL * _Nonnull stop) {
-			if ([[item itemIdentifier] isEqualToString:[toolbar selectedItemIdentifier]]) {
+			if ([[item itemIdentifier] isEqualToString:[self->toolbar selectedItemIdentifier]]) {
 				selected = idx;
 				*stop = YES;
 			}

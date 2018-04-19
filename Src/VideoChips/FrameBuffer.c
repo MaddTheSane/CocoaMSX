@@ -65,7 +65,7 @@ static FrameBuffer* mixFrameInterlace(FrameBuffer* d, FrameBuffer* a, FrameBuffe
 static void frameBufferSuperimpose(FrameBuffer* a);
 static void frameBufferExternal(FrameBuffer* a);
 static void frameBufferBlack(FrameBuffer* a);
-extern int getScreenCompletePercent();
+extern int getScreenCompletePercent(void);
 
 static void waitSem() {
     if (semaphore == NULL) {

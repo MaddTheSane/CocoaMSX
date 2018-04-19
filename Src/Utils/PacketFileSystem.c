@@ -29,7 +29,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "strcmpnocase.h"
+#include "StrcmpNoCase.h"
 
 #include "blowfish.h"
 #include "authkey.h"

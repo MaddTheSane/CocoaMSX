@@ -37,13 +37,13 @@ typedef struct {
     void  (*loadState)(void*);
 } DeviceCallbacks;
 
-void deviceManagerCreate();
-void deviceManagerDestroy();
+void deviceManagerCreate(void);
+void deviceManagerDestroy(void);
 
-void deviceManagerReset();
+void deviceManagerReset(void);
 
-void deviceManagerLoadState();
-void deviceManagerSaveState();
+void deviceManagerLoadState(void);
+void deviceManagerSaveState(void);
 
 int deviceManagerRegister(int type, DeviceCallbacks* callbacks, void* ref);
 void deviceManagerUnregister(int handle);

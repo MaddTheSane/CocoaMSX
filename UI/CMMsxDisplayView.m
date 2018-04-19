@@ -471,11 +471,11 @@ void archUpdateWindow()
         return nil;
     }
     
-    videoRender(copy, frameBuffer, 32, zoom, rawBitmapBuffer, 0, pitch, 0);
+    videoRender(copy, frameBuffer, 32, (int)zoom, rawBitmapBuffer, 0, (int)pitch, 0);
     videoDestroy(copy);
     
     // Mirror the byte order
-    for (int i = width * height - 1; i >= 0; i--)
+    for (NSInteger i = width * height - 1; i >= 0; i--)
     {
         UInt8 r = rawBitmapBuffer[i] & 0xff;
         UInt8 g = (rawBitmapBuffer[i] & 0xff00) >> 8;
@@ -523,7 +523,7 @@ void *archScreenCapture(ScreenCaptureType type, int *bitmapSize, int onlyBmp)
             NSBitmapImageRep *rep = (NSBitmapImageRep *)[[image representations] firstObject];
             NSData *pngData = [rep representationUsingType:NSPNGFileType properties:@{}];
             
-            *bitmapSize = pngData.length;
+            *bitmapSize = (int)pngData.length;
             bytes = malloc(*bitmapSize);
             
             memcpy(bytes, [pngData bytes], *bitmapSize);

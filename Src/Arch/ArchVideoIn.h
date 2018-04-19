@@ -30,7 +30,7 @@
 
 #include "MsxTypes.h"
 
-int archVideoInIsVideoConnected();
+int archVideoInIsVideoConnected(void);
 
 // Returns a video in buffer. The buffer is owned by the arch video and
 // can't be freed until a succeeding call to archVideoInBufferGet is called.
@@ -38,6 +38,6 @@ int archVideoInIsVideoConnected();
 UInt16* archVideoInBufferGet(int width, int height);
 
 // Saves video capture to file (really not video in :/)
-void archVideoCaptureSave();
+void archVideoCaptureSave(void);
 
 #endif

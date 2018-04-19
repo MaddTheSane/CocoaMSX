@@ -243,12 +243,12 @@ static NSMutableDictionary *virtualCodeToCategoryMap;
             NSString *defaultChar = [msxKey charForState:CMMSXKeyStateDefault];
             NSString *shiftChar = [msxKey charForState:CMMSXKeyStateShift];
             
-            [virtualCodeToKeyInfoMap setObject:msxKey forKey:virtualCode];
+            [self->virtualCodeToKeyInfoMap setObject:msxKey forKey:virtualCode];
             
             if (defaultChar)
-                [characterToVirtualCodeMap setObject:msxKey forKey:defaultChar];
+                [self->characterToVirtualCodeMap setObject:msxKey forKey:defaultChar];
             if (shiftChar)
-                [characterToVirtualCodeMap setObject:msxKey forKey:shiftChar];
+                [self->characterToVirtualCodeMap setObject:msxKey forKey:shiftChar];
         }];
     }
     

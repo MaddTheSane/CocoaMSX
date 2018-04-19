@@ -39,16 +39,16 @@ static const char* VdpNames[] = { "V9938", "V9958", "TMS9929A", "TMS99x8A" };
 
 void vdpCreate(VdpConnector connector, VdpVersion version, VdpSyncMode sync, int vramPages);
 
-int  vdpGetRefreshRate();
+int  vdpGetRefreshRate(void);
 
 void vdpSetSpritesEnable(int enable);
-int  vdpGetSpritesEnable();
+int  vdpGetSpritesEnable(void);
 void vdpSetNoSpriteLimits(int enable);
-int  vdpGetNoSpritesLimit();
+int  vdpGetNoSpritesLimit(void);
 void vdpSetDisplayEnable(int enable);
-int  vdpGetDisplayEnable();
+int  vdpGetDisplayEnable(void);
 
-void vdpForceSync();
+void vdpForceSync(void);
 
 // Video DA Interface
 

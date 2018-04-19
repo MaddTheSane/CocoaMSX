@@ -90,7 +90,7 @@ static int     useFmPac;
 static RomType currentRomType[2];
 
 static BoardType boardLoadState(void);
-static void boardUpdateDisketteInfo();
+static void boardUpdateDisketteInfo(void);
 
 static char saveStateVersion[32] = "blueMSX - state  v 8";
 
@@ -99,7 +99,7 @@ static void*        periodicRef;
 static UInt32       periodicInterval;
 static BoardTimer*  periodicTimer;
 
-void boardTimerCleanup();
+void boardTimerCleanup(void);
 
 #define HIRES_CYCLES_PER_LORES_CYCLE (UInt64)100000
 #define boardFrequency64() (HIRES_CYCLES_PER_LORES_CYCLE * boardFrequency())
@@ -253,7 +253,7 @@ int boardCaptureCompleteAmount() {
     return (int)(1000 * current / length);
 }
 
-extern void actionEmuTogglePause();
+extern void actionEmuTogglePause(void);
 
 static void boardTimerCb(void* dummy, UInt32 time)
 {

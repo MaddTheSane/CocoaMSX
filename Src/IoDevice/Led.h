@@ -31,31 +31,31 @@
 void ledSetAll(int enable);
 
 void ledSetCapslock(int enable);
-int  ledGetCapslock();
+int  ledGetCapslock(void);
 
 void ledSetKana(int enable);
-int  ledGetKana();
+int  ledGetKana(void);
 
 void ledSetTurboR(int enable);
-int  ledGetTurboR();
+int  ledGetTurboR(void);
 
 void ledSetPause(int enable);
-int  ledGetPause();
+int  ledGetPause(void);
 
 void ledSetRensha(int enable);
-int  ledGetRensha();
+int  ledGetRensha(void);
 
 void ledSetFdd1(int enable);
-int  ledGetFdd1();
+int  ledGetFdd1(void);
 
 void ledSetFdd2(int enable);
-int  ledGetFdd2();
+int  ledGetFdd2(void);
 
 void ledSetHd(int enable);
-int  ledGetHd();
+int  ledGetHd(void);
 
 void ledSetCas(int enable);
-int  ledGetCas();
+int  ledGetCas(void);
 
 #endif
 

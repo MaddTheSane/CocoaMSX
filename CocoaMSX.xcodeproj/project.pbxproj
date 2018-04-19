@@ -2069,6 +2069,7 @@
 			);
 			path = Cocoa;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		FEF40EC2160DB83B009170A9 /* Cocoa */ = {
 			isa = PBXGroup;

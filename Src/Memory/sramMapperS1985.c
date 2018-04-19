@@ -37,7 +37,7 @@
 #include <string.h>
 #include <stdio.h>
 
-extern int frontSwitchEnabled();
+extern int frontSwitchEnabled(void);
 
 typedef struct {
     int    deviceHandle;

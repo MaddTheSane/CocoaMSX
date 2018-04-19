@@ -41,7 +41,7 @@ typedef struct {
 typedef UInt8 (*WatchpointReadMemCallback)(void*, int);
 
 
-void debugDeviceManagerReset();
+void debugDeviceManagerReset(void);
 
 int debugDeviceRegister(DbgDeviceType type, const char* name, DebugCallbacks* callbacks, void* ref);
 void debugDeviceUnregister(int handle);

@@ -199,7 +199,7 @@ static NSArray<NSString *> *defaultsToObserve;
     [configurations enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
     {
         CMGamepadConfiguration *config = [NSKeyedUnarchiver unarchiveObjectWithData:obj];
-        [joypadConfigurations setObject:config
+		[self->joypadConfigurations setObject:config
                                  forKey:@([config vendorProductId])];
     }];
 #ifdef DEBUG
@@ -225,7 +225,7 @@ static NSArray<NSString *> *defaultsToObserve;
 #endif
     
     NSMutableArray *textAsKeyCombinations = [NSMutableArray array];
-    for (int i = 0, n = [text length]; i < n; i++) {
+    for (NSInteger i = 0, n = [text length]; i < n; i++) {
         NSString *character = [text substringWithRange:NSMakeRange(i, 1)];
         CMMSXKeyCombination *keyCombination = [keyboardLayout keyCombinationForCharacter:character];
 		if (keyCombination) {

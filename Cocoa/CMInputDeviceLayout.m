@@ -62,7 +62,7 @@
     [layout->inputs enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
     {
         CMInputMethod *copy = [((CMInputMethod *)obj) copy];
-        [inputs setObject:copy forKey:key];
+        [self->inputs setObject:copy forKey:key];
     }];
 }
 

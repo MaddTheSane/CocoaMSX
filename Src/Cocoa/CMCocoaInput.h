@@ -41,7 +41,6 @@ extern NSString * const CMKeyPasteEnded;
 - (BOOL)pasteText:(NSString *)text
        layoutName:(NSString *)layoutName;
 
-- (void)resetState;
 - (void)releaseAllKeys;
 
 @end

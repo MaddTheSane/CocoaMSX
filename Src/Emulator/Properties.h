@@ -503,6 +503,6 @@ void propDestroy(Properties* pProperties);
 
 void propertiesSetDirectory(const char* defDir, const char* altDir);
 
-Properties* propGetGlobalProperties();
+Properties* propGetGlobalProperties(void);
 
 #endif
