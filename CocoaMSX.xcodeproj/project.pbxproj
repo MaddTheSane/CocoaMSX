@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		557DFCC72089383800E50D9A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 557DFCC92089383800E50D9A /* Localizable.strings */; };
 		55CE7BD22088189100FE47CA /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55CE7BD12088189100FE47CA /* Media.xcassets */; };
 		6B1C25AC1672972F004DD618 /* CMKeyboardInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1C25AB1672972F004DD618 /* CMKeyboardInput.m */; };
 		6B36CC451644806B00B5FDB7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B36CC441644806B00B5FDB7 /* MainMenu.xib */; };
@@ -317,7 +318,6 @@
 		FE9C6A27161A446B00513A6D /* CMEmulatorController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9C6A26161A446B00513A6D /* CMEmulatorController.m */; };
 		FE9C6A2C161AAD3B00513A6D /* CMCocoaMouse.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9C6A2B161AAD3B00513A6D /* CMCocoaMouse.m */; };
 		FE9D27AA161EDB2600ADFB0F /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE9D27A9161EDB2600ADFB0F /* AudioUnit.framework */; };
-		FEA01B371620C7720066FDD8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FEA01B361620C7720066FDD8 /* Localizable.strings */; };
 		FEA0B740168587A3006B5244 /* SnapshotDocument.icns in Resources */ = {isa = PBXBuildFile; fileRef = FEA0B73F168587A3006B5244 /* SnapshotDocument.icns */; };
 		FEA4548D1679B65300AAECB7 /* DiskDocument.icns in Resources */ = {isa = PBXBuildFile; fileRef = FEA4548C1679B65300AAECB7 /* DiskDocument.icns */; };
 		FEA454901679BAF700AAECB7 /* CassetteDocument.icns in Resources */ = {isa = PBXBuildFile; fileRef = FEA4548F1679BAF700AAECB7 /* CassetteDocument.icns */; };
@@ -370,11 +370,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		256AC3F00F4B6AF500CF3369 /* CocoaMSX_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaMSX_Prefix.pch; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		557DFCC82089383800E50D9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		55CE7BD12088189100FE47CA /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		6B1631CC161FAE21009E6A55 /* LanguageStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageStrings.h; sourceTree = "<group>"; };
 		6B1C25AA1672972F004DD618 /* CMKeyboardInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMKeyboardInput.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1012,7 +1013,6 @@
 		FE9C6A2A161AAD3B00513A6D /* CMCocoaMouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMCocoaMouse.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		FE9C6A2B161AAD3B00513A6D /* CMCocoaMouse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMCocoaMouse.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FE9D27A9161EDB2600ADFB0F /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
-		FEA01B361620C7720066FDD8 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		FEA0A23D1610F8CF0032DD50 /* CMCocoaTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMCocoaTimer.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		FEA0B73F168587A3006B5244 /* SnapshotDocument.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SnapshotDocument.icns; sourceTree = "<group>"; };
 		FEA4548C1679B65300AAECB7 /* DiskDocument.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = DiskDocument.icns; sourceTree = "<group>"; };
@@ -1155,7 +1155,7 @@
 				FE1C1357167DE0D200CE2B6B /* Documents */,
 				FE2CEB551622A50500E58F9A /* Databases */,
 				FE2CEB571622A50500E58F9A /* Machines */,
-				FEA01B361620C7720066FDD8 /* Localizable.strings */,
+				557DFCC92089383800E50D9A /* Localizable.strings */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				FE1C134E167DCF8900CE2B6B /* About.xib */,
 				FE05CAD0176CD17C00D6CAC0 /* ConfigureJoystick.xib */,
@@ -2140,19 +2140,15 @@
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CocoaMSX" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				en,
 				ca,
 				cs,
 				da,
 				de,
 				el,
-				en,
 				"es-MX",
 				es,
 				fr,
@@ -2191,7 +2187,7 @@
 				E99733701298B4B500766C90 /* build_info.txt in Resources */,
 				FE42836315FE857400ED7CB9 /* Emulator.xib in Resources */,
 				FEC7232215FF133700CB508C /* Preferences.xib in Resources */,
-				FEA01B371620C7720066FDD8 /* Localizable.strings in Resources */,
+				557DFCC72089383800E50D9A /* Localizable.strings in Resources */,
 				FE2CEB581622A50500E58F9A /* Databases in Resources */,
 				FE2CEB5A1622A50500E58F9A /* Machines in Resources */,
 				FE2A2BD916240966000CCAE4 /* RepositionCassette.xib in Resources */,
@@ -2548,6 +2544,14 @@
 				089C165DFE840E0CC02AAC07 /* English */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		557DFCC92089383800E50D9A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				557DFCC82089383800E50D9A /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
