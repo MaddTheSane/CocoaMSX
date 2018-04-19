@@ -30,8 +30,8 @@
 @property (nonatomic, assign) NSUInteger index;
 
 @property (nonatomic, readonly) NSInteger locationId;
-@property (nonatomic, readonly) NSInteger vendorId;
-@property (nonatomic, readonly) NSInteger productId;
+@property (nonatomic, readonly) int vendorId;
+@property (nonatomic, readonly) int productId;
 @property (nonatomic, readonly) NSString *name;
 
 + (NSArray *)allGamepads;
@@ -40,7 +40,7 @@
 
 - (void)registerForEvents;
 
-- (NSInteger)vendorProductId;
+@property (readonly) UInt32 vendorProductId;
 - (NSString *)vendorProductString;
 
 - (NSMutableDictionary *)currentAxisValues;

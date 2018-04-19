@@ -167,7 +167,7 @@ static void gamepadInputValueCallback(void *context, IOReturn result, void *send
             (long)[self vendorId], (long)[self productId]];
 }
 
-- (NSInteger)vendorProductId
+- (UInt32)vendorProductId
 {
     return (_vendorId << 16) | _productId;
 }

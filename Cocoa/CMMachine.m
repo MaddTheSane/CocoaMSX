@@ -40,7 +40,7 @@ NSString *const CMMsxTurboRMachine = @"MSX Turbo R";
 
 + (CMMachine *)machineWithPath:(NSString *)path
 {
-    return [[CMMachine alloc] initWithPath:path];
+    return [[self alloc] initWithPath:path];
 }
 
 - (id)init
@@ -117,16 +117,27 @@ NSString *const CMMsxTurboRMachine = @"MSX Turbo R";
 
 - (NSString *)systemName
 {
-    if (_system == CMMsx)
-        return CMMsxMachine;
-    if (_system == CMMsx2)
-        return CMMsx2Machine;
-    if (_system == CMMsx2Plus)
-        return CMMsx2PMachine;
-    if (_system == CMMsxTurboR)
-        return CMMsxTurboRMachine;
-    
-    return nil;
+    switch (_system) {
+        case CMMsx:
+            return CMMsxMachine;
+            break;
+            
+        case CMMsx2:
+            return CMMsx2Machine;
+            break;
+            
+        case CMMsx2Plus:
+            return CMMsx2PMachine;
+            break;
+
+        case CMMsxTurboR:
+            return CMMsxTurboRMachine;
+            break;
+
+        default:
+            return nil;
+            break;
+    }
 }
 
 - (NSUInteger)hash
@@ -168,11 +179,11 @@ NSString *const CMMsxTurboRMachine = @"MSX Turbo R";
 {
     if ((self = [self init]))
     {
-        _name = [aDecoder decodeObjectForKey:@"name"];
-        _path = [aDecoder decodeObjectForKey:@"path"];
-        _machineId = [aDecoder decodeObjectForKey:@"machineId"];
+        _name = [[aDecoder decodeObjectForKey:@"name"] copy];
+        _path = [[aDecoder decodeObjectForKey:@"path"] copy];
+        _machineId = [[aDecoder decodeObjectForKey:@"machineId"] copy];
         _machineUrl = [aDecoder decodeObjectForKey:@"machineUrl"];
-        _checksum = [aDecoder decodeObjectForKey:@"checksum"];
+        _checksum = [[aDecoder decodeObjectForKey:@"checksum"] copy];
         _system = [aDecoder decodeIntegerForKey:@"system"];
         _status = [aDecoder decodeIntegerForKey:@"status"];
         _active = [aDecoder decodeBoolForKey:@"active"];

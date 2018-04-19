@@ -22,20 +22,25 @@
  */
 #import <Foundation/Foundation.h>
 
-extern NSString * const CMMsxMachine;
-extern NSString * const CMMsx2Machine;
-extern NSString * const CMMsx2PMachine;
-extern NSString * const CMMsxTurboRMachine;
+typedef NSString *CMMachineSystemName NS_STRING_ENUM;
+extern CMMachineSystemName const CMMsxMachine;
+extern CMMachineSystemName const CMMsx2Machine;
+extern CMMachineSystemName const CMMsx2PMachine;
+extern CMMachineSystemName const CMMsxTurboRMachine;
 
-#define CMUnknown   0
-#define CMMsx       1
-#define CMMsx2      2
-#define CMMsx2Plus  3
-#define CMMsxTurboR 4
+typedef NS_ENUM(NSInteger, CMMachineSystem) {
+    CMUnknown   = 0,
+    CMMsx       = 1,
+    CMMsx2      = 2,
+    CMMsx2Plus  = 3,
+    CMMsxTurboR = 4
+};
 
-#define CMMachineDownloadable 1
-#define CMMachineDownloading  2
-#define CMMachineInstalled    3
+typedef NS_ENUM(NSInteger, CMMachineStatus) {
+    CMMachineDownloadable = 1,
+    CMMachineDownloading  = 2,
+    CMMachineInstalled    = 3
+};
 
 @interface CMMachine : NSObject<NSCopying, NSCoding>
 
@@ -44,19 +49,19 @@ extern NSString * const CMMsxTurboRMachine;
 @property (nonatomic, copy) NSString *path;
 @property (nonatomic, copy) NSString *checksum;
 @property (nonatomic, strong) NSURL *machineUrl;
-@property (nonatomic, assign) NSInteger system;
-@property (nonatomic, assign) NSInteger status;
-@property (nonatomic, assign) BOOL active;
+@property (nonatomic, assign) CMMachineSystem system;
+@property (nonatomic, assign) CMMachineStatus status;
+@property (nonatomic, assign, getter=isActive) BOOL active;
 
-+ (CMMachine *)machineWithPath:(NSString *)path;
++ (instancetype)machineWithPath:(NSString *)path;
 
 - (id)initWithPath:(NSString *)path;
 - (id)initWithPath:(NSString *)path
          machineId:(NSString *)machineId
               name:(NSString *)name
-        systemName:(NSString *)systemName;
+        systemName:(CMMachineSystemName)systemName;
 
-- (NSString *)systemName;
+- (CMMachineSystemName)systemName;
 - (NSString *)downloadPath;
 
 @end
