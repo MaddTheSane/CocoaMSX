@@ -22,25 +22,28 @@
  */
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class CMInputDeviceLayout;
 
 @interface CMPreferences : NSObject
 
-#define CMSnapshotIconStyleNone      0
-#define CMSnapshotIconStyleScreen    1
-#define CMSnapshotIconStyleFilmstrip 2
+typedef NS_ENUM(NSInteger, CMSnapshotIconStyle) {
+    CMSnapshotIconStyleNone      = 0,
+    CMSnapshotIconStyleScreen    = 1,
+    CMSnapshotIconStyleFilmstrip = 2
+};
 
-+ (CMPreferences *)preferences;
+@property (class, readonly, strong) CMPreferences *preferences;
 
-- (CMInputDeviceLayout *)keyboardLayout;
-- (void)setKeyboardLayout:(CMInputDeviceLayout *)keyboardLayout;
+@property (strong) CMInputDeviceLayout *keyboardLayout;
 
-- (CMInputDeviceLayout *)defaultKeyboardLayout;
-- (CMInputDeviceLayout *)defaultJoystickOneLayout;
-- (CMInputDeviceLayout *)defaultJoystickTwoLayout;
++ (CMInputDeviceLayout *)defaultKeyboardLayout;
++ (CMInputDeviceLayout *)defaultJoystickOneLayout;
++ (CMInputDeviceLayout *)defaultJoystickTwoLayout;
 
-- (NSURL *)appSupportUrl;
-- (NSString *)appSupportDirectory;
+@property (readonly, copy) NSURL *appSupportUrl;
+@property (readonly, copy) NSString *appSupportDirectory;
 
 - (NSString *)audioCaptureDirectory;
 - (void)setAudioCaptureDirectory:(NSString *)directory;
@@ -57,13 +60,21 @@
 - (NSString *)snapshotDirectory;
 - (void)setSnapshotDirectory:(NSString *)directory;
 
-- (BOOL)createAudioCaptureDirectory;
-- (BOOL)createVideoCaptureDirectory;
-- (BOOL)createSramDirectory;
-- (BOOL)createCassetteDataDirectory;
-- (BOOL)createDatabaseDirectory;
-- (BOOL)createMachineDirectory;
-- (BOOL)createSnapshotDirectory;
+@property (copy) NSURL *audioCaptureURLDirectory;
+@property (copy) NSURL *videoCaptureURLDirectory;
+@property (copy) NSURL *sramURLDirectory;
+@property (copy) NSURL *cassetteDataURLDirectory;
+@property (copy) NSURL *databaseURLDirectory;
+@property (copy) NSURL *machineURLDirectory;
+@property (copy) NSURL *snapshotURLDirectory;
+
+@property (readonly) BOOL createAudioCaptureDirectory;
+@property (readonly) BOOL createVideoCaptureDirectory;
+@property (readonly) BOOL createSramDirectory;
+@property (readonly) BOOL createCassetteDataDirectory;
+@property (readonly) BOOL createDatabaseDirectory;
+@property (readonly) BOOL createMachineDirectory;
+@property (readonly) BOOL createSnapshotDirectory;
 
 - (void)setCassetteDirectory:(NSString *)directory;
 - (NSString *)cassetteDirectory;
@@ -72,4 +83,10 @@
 - (void)setDiskDirectory:(NSString *)directory;
 - (NSString *)diskDirectory;
 
+@property (copy, nullable) NSURL *cassetteURLDirectory;
+@property (copy, nullable) NSURL *cartridgeURLDirectory;
+@property (copy, nullable) NSURL *diskURLDirectory;
+
 @end
+
+NS_ASSUME_NONNULL_END

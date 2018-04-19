@@ -47,7 +47,7 @@
 
 @interface CMGamepadConfiguration : NSObject<NSCoding, NSCopying>
 
-@property (nonatomic, assign) NSInteger vendorProductId;
+@property (nonatomic, assign) UInt32 vendorProductId;
 
 @property (nonatomic, assign) NSInteger up;
 @property (nonatomic, assign) NSInteger down;
@@ -57,10 +57,10 @@
 @property (nonatomic, assign) NSInteger buttonB;
 
 - (void) reset;
-- (NSString *) vendorProductString;
+@property (readonly, copy) NSString *vendorProductString;
 
-+ (CMGamepadConfiguration *) defaultKeyboardPlayerOneConfiguration;
-+ (CMGamepadConfiguration *) defaultKeyboardPlayerTwoConfiguration;
-+ (CMGamepadConfiguration *) defaultGamepadConfiguration;
+@property (class, readonly, strong) CMGamepadConfiguration * defaultKeyboardPlayerOneConfiguration;
+@property (class, readonly, strong) CMGamepadConfiguration *defaultKeyboardPlayerTwoConfiguration;
+@property (class, readonly, strong) CMGamepadConfiguration *defaultGamepadConfiguration;
 
 @end

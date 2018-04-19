@@ -231,20 +231,20 @@
 
 - (void)showLicense:(id)sender
 {
-    NSString *documentPath = [[NSBundle mainBundle] pathForResource:@"LICENSE"
-                                                             ofType:@""
-                                                        inDirectory:@"Documents"];
+    NSURL *documentPath = [[NSBundle mainBundle] URLForResource:@"LICENSE"
+                                                  withExtension:nil
+                                                   subdirectory:@"Documents"];
     
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:documentPath]];
+    [[NSWorkspace sharedWorkspace] openURL:documentPath];
 }
 
 - (void)showAuthors:(id)sender
 {
-    NSString *documentPath = [[NSBundle mainBundle] pathForResource:@"AUTHORS"
-                                                             ofType:@""
-                                                        inDirectory:@"Documents"];
+    NSURL *documentPath = [[NSBundle mainBundle] URLForResource:@"AUTHORS"
+                                                  withExtension:nil
+                                                   subdirectory:@"Documents"];
     
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:documentPath]];
+    [[NSWorkspace sharedWorkspace] openURL:documentPath];
 }
 
 @end

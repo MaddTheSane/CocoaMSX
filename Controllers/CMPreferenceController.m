@@ -995,7 +995,7 @@ extern CMEmulatorController *theEmulator;
 {
     CMInputDeviceLayout *layout = theEmulator.keyboardLayout;
     
-    [layout loadLayout:[[CMPreferences preferences] defaultKeyboardLayout]];
+    [layout loadLayout:[CMPreferences defaultKeyboardLayout]];
     [[CMPreferences preferences] setKeyboardLayout:layout];
     
     [keyboardLayoutEditor reloadData];

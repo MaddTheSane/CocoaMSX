@@ -77,13 +77,13 @@ extern NSString * const CMKeyboardLayoutPrefKey;
 
 @property (nonatomic, assign) BOOL isInitialized;
 
-- (Properties *)properties;
-- (Video *)video;
+@property (readonly) Properties *properties;
+@property (readonly) Video *video;
 
-- (CMCocoaInput *)input;
-- (CMCocoaMouse *)mouse;
-- (CMCocoaSound *)sound;
-- (CMMsxDisplayView *)screen;
+@property (readonly, strong) CMCocoaInput *input;
+@property (readonly, strong) CMCocoaMouse *mouse;
+@property (readonly, strong) CMCocoaSound *sound;
+@property (readonly, strong) CMMsxDisplayView *screen;
 
 - (void)start;
 - (void)stop;
@@ -95,9 +95,9 @@ extern NSString * const CMKeyboardLayoutPrefKey;
 - (void)setEmulationSpeedAsPercentage:(NSInteger)percentage;
 
 - (void)performColdReboot;
-- (BOOL)isStarted;
-- (BOOL)isPaused;
-- (NSInteger)machineState;
+@property (readonly, getter=isStarted) BOOL started;
+@property (readonly, getter=isPaused) BOOL paused;
+@property (readonly) NSInteger machineState;
 
 - (BOOL)isInFullScreenMode;
 
@@ -109,7 +109,7 @@ extern NSString * const CMKeyboardLayoutPrefKey;
 
 - (BOOL)insertUnknownMedia:(NSString *)media;
 
-+ (NSArray *)machineConfigurations;
++ (NSArray<NSString*> *)machineConfigurations;
 + (BOOL)removeMachineConfiguration:(NSString *)configurationName;
 + (NSString *)pathForMachineConfigurationNamed:(NSString *)name;
 

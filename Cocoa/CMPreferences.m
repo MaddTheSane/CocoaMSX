@@ -50,17 +50,23 @@ static NSString * const CMDiskDirectoryKey = @"diskDirectory";
 - (void)setAppSupportSubdirectoryForKey:(NSString *)preferenceKey
                       withDefaultSuffix:(NSString *)defaultSuffix
                             toDirectory:(NSString *)directory;
+- (NSURL *)appSupportURLForKey:(NSString *)preferenceKey
+                 defaultSuffix:(NSString *)defaultSuffix;
+- (void)setAppSupportURLForKey:(NSString *)preferenceKey
+             withDefaultSuffix:(NSString *)defaultSuffix
+                         toURL:(NSURL *)directory;
 
 @end
 
 @implementation CMPreferences
 
-static CMPreferences *preferences = nil;
-
 + (CMPreferences *)preferences
 {
-    if (!preferences)
+    static CMPreferences *preferences = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         preferences = [[CMPreferences alloc] init];
+    });
     
     return preferences;
 }
@@ -90,9 +96,15 @@ static CMPreferences *preferences = nil;
 - (NSString *)appSupportSubdirectoryForKey:(NSString *)preferenceKey
                              defaultSuffix:(NSString *)defaultSuffix
 {
-    NSString *directory = [[NSUserDefaults standardUserDefaults] stringForKey:preferenceKey];
+    return [[self appSupportURLForKey:preferenceKey defaultSuffix:defaultSuffix] path];
+}
+
+- (NSURL *)appSupportURLForKey:(NSString *)preferenceKey
+                 defaultSuffix:(NSString *)defaultSuffix
+{
+    NSURL *directory = [[NSUserDefaults standardUserDefaults] URLForKey:preferenceKey];
     if (!directory)
-        directory = [[self appSupportDirectory] stringByAppendingPathComponent:defaultSuffix];
+        directory = [[self appSupportUrl] URLByAppendingPathComponent:defaultSuffix isDirectory:YES];
     
     return directory;
 }
@@ -101,10 +113,18 @@ static CMPreferences *preferences = nil;
                       withDefaultSuffix:(NSString *)defaultSuffix
                             toDirectory:(NSString *)directory
 {
-    NSString *defaultDirectory = [[self appSupportDirectory] stringByAppendingPathComponent:defaultSuffix];
-    if (![directory isEqualToPath:defaultDirectory])
-        [[NSUserDefaults standardUserDefaults] setObject:directory
-                                                  forKey:CMAudioCaptureDirectoryKey];
+    [self setAppSupportURLForKey:preferenceKey
+               withDefaultSuffix:defaultSuffix
+                           toURL:[NSURL fileURLWithPath:directory
+                                            isDirectory:YES]];
+}
+
+- (void)setAppSupportURLForKey:(NSString *)preferenceKey
+             withDefaultSuffix:(NSString *)defaultSuffix
+                         toURL:(NSURL *)directory
+{
+    [[NSUserDefaults standardUserDefaults] setURL:directory
+                                           forKey:preferenceKey];
 }
 
 #pragma mark - Input Devices
@@ -121,29 +141,29 @@ static CMPreferences *preferences = nil;
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:CMKeyboardLayoutPrefKey];
 }
 
-- (CMInputDeviceLayout *)defaultKeyboardLayout;
++ (CMInputDeviceLayout *)defaultKeyboardLayout
 {
-    NSString *bundleResourcePath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
-    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:bundleResourcePath];
+    NSURL *bundleResourcePath = [[NSBundle mainBundle] URLForResource:@"Defaults" withExtension:@"plist"];
+    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfURL:bundleResourcePath];
     
     NSData *layoutData = [defaults objectForKey:CMKeyboardLayoutPrefKey];
     return [NSKeyedUnarchiver unarchiveObjectWithData:layoutData];
 }
 
-- (CMInputDeviceLayout *)defaultJoystickOneLayout;
++ (CMInputDeviceLayout *)defaultJoystickOneLayout
 {
-    NSString *bundleResourcePath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
-    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:bundleResourcePath];
-    
+    NSURL *bundleResourcePath = [[NSBundle mainBundle] URLForResource:@"Defaults" withExtension:@"plist"];
+    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfURL:bundleResourcePath];
+
     NSData *layoutData = [defaults objectForKey:CMJoystickOneLayoutPrefKey];
     return [NSKeyedUnarchiver unarchiveObjectWithData:layoutData];
 }
 
-- (CMInputDeviceLayout *)defaultJoystickTwoLayout;
++ (CMInputDeviceLayout *)defaultJoystickTwoLayout
 {
-    NSString *bundleResourcePath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
-    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:bundleResourcePath];
-    
+    NSURL *bundleResourcePath = [[NSBundle mainBundle] URLForResource:@"Defaults" withExtension:@"plist"];
+    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfURL:bundleResourcePath];
+
     NSData *layoutData = [defaults objectForKey:CMJoystickTwoLayoutPrefKey];
     return [NSKeyedUnarchiver unarchiveObjectWithData:layoutData];
 }
@@ -152,163 +172,273 @@ static CMPreferences *preferences = nil;
 
 - (BOOL)createAudioCaptureDirectory
 {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:CMAudioCaptureDirectoryKey] == nil;
+    return [[NSUserDefaults standardUserDefaults] URLForKey:CMAudioCaptureDirectoryKey] == nil;
 }
 
 - (NSString *)audioCaptureDirectory
 {
-    return [self appSupportSubdirectoryForKey:CMAudioCaptureDirectoryKey
-                                defaultSuffix:@"Audio Capture"];
+    return [self.audioCaptureURLDirectory path];
 }
 
 - (void)setAudioCaptureDirectory:(NSString *)directory
 {
-    [self setAppSupportSubdirectoryForKey:CMAudioCaptureDirectoryKey
-                        withDefaultSuffix:@"Audio Capture"
-                              toDirectory:directory];
+    self.audioCaptureURLDirectory = [NSURL fileURLWithPath:directory
+                                               isDirectory:YES];
+}
+
+- (NSURL *)audioCaptureURLDirectory
+{
+    return [self appSupportURLForKey:CMAudioCaptureDirectoryKey
+                       defaultSuffix:@"Audio Capture"];
+}
+
+- (void)setAudioCaptureURLDirectory:(NSURL *)audioCaptureURLDirectory
+{
+    [self setAppSupportURLForKey:CMAudioCaptureDirectoryKey
+               withDefaultSuffix:@"Audio Capture"
+                           toURL:audioCaptureURLDirectory];
 }
 
 - (BOOL)createVideoCaptureDirectory
 {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:CMVideoCaptureDirectoryKey] == nil;
+    return [[NSUserDefaults standardUserDefaults] URLForKey:CMVideoCaptureDirectoryKey] == nil;
 }
 
 - (NSString *)videoCaptureDirectory
 {
-    return [self appSupportSubdirectoryForKey:CMVideoCaptureDirectoryKey
-                                defaultSuffix:@"Video Capture"];
+    return [self.videoCaptureURLDirectory path];
 }
 
 - (void)setVideoCaptureDirectory:(NSString *)directory
 {
-    [self setAppSupportSubdirectoryForKey:CMVideoCaptureDirectoryKey
-                        withDefaultSuffix:@"Video Capture"
-                              toDirectory:directory];
+    self.videoCaptureURLDirectory = [NSURL fileURLWithPath:directory
+                                               isDirectory:YES];
+}
+
+- (NSURL *)videoCaptureURLDirectory
+{
+    return [self appSupportURLForKey:CMVideoCaptureDirectoryKey
+                       defaultSuffix:@"Video Capture"];
+}
+
+- (void)setVideoCaptureURLDirectory:(NSURL *)audioCaptureURLDirectory
+{
+    [self setAppSupportURLForKey:CMVideoCaptureDirectoryKey
+               withDefaultSuffix:@"Video Capture"
+                           toURL:audioCaptureURLDirectory];
 }
 
 - (BOOL)createSramDirectory
 {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:CMSramDirectoryKey] == nil;
+    return [[NSUserDefaults standardUserDefaults] URLForKey:CMSramDirectoryKey] == nil;
 }
 
 - (NSString *)sramDirectory
 {
-    return [self appSupportSubdirectoryForKey:CMSramDirectoryKey
-                                defaultSuffix:@"SRAM"];
+    return [self.sramURLDirectory path];
 }
 
 - (void)setSramDirectory:(NSString *)directory
 {
-    [self setAppSupportSubdirectoryForKey:CMSramDirectoryKey
-                        withDefaultSuffix:@"SRAM"
-                              toDirectory:directory];
+    self.sramURLDirectory = [NSURL fileURLWithPath:directory
+                                       isDirectory:YES];
+}
+
+- (NSURL *)sramURLDirectory
+{
+    return [self appSupportURLForKey:CMSramDirectoryKey
+                       defaultSuffix:@"SRAM"];
+}
+
+- (void)setSramURLDirectory:(NSURL *)audioCaptureURLDirectory
+{
+    [self setAppSupportURLForKey:CMSramDirectoryKey
+               withDefaultSuffix:@"SRAM"
+                           toURL:audioCaptureURLDirectory];
 }
 
 - (BOOL)createCassetteDataDirectory
 {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:CMCassetteDataDirectoryKey] == nil;
+    return [[NSUserDefaults standardUserDefaults] URLForKey:CMCassetteDataDirectoryKey] == nil;
 }
 
 - (NSString *)cassetteDataDirectory
 {
-    return [self appSupportSubdirectoryForKey:CMCassetteDataDirectoryKey
-                                defaultSuffix:@"Cassettes"];
+    return [self.cassetteDataURLDirectory path];
 }
 
 - (void)setCassetteDataDirectory:(NSString *)directory
 {
-    [self setAppSupportSubdirectoryForKey:CMCassetteDataDirectoryKey
-                        withDefaultSuffix:@"Cassettes"
-                              toDirectory:directory];
+    self.cassetteDataURLDirectory = [NSURL fileURLWithPath:directory
+                                               isDirectory:YES];
+}
+
+- (NSURL *)cassetteDataURLDirectory
+{
+    return [self appSupportURLForKey:CMCassetteDataDirectoryKey
+                       defaultSuffix:@"Cassettes"];
+}
+
+- (void)setCassetteDataURLDirectory:(NSURL *)audioCaptureURLDirectory
+{
+    [self setAppSupportURLForKey:CMCassetteDataDirectoryKey
+               withDefaultSuffix:@"Cassettes"
+                           toURL:audioCaptureURLDirectory];
 }
 
 - (BOOL)createDatabaseDirectory
 {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:CMDatabaseDirectoryKey] == nil;
+    return [[NSUserDefaults standardUserDefaults] URLForKey:CMDatabaseDirectoryKey] == nil;
 }
 
 - (NSString *)databaseDirectory
 {
-    return [self appSupportSubdirectoryForKey:CMDatabaseDirectoryKey
-                                defaultSuffix:@"Databases"];
+    return [self.databaseURLDirectory path];
 }
 
 - (void)setDatabaseDirectory:(NSString *)directory
 {
-    [self setAppSupportSubdirectoryForKey:CMDatabaseDirectoryKey
-                        withDefaultSuffix:@"Databases"
-                              toDirectory:directory];
+    self.databaseURLDirectory = [NSURL fileURLWithPath:directory
+                                           isDirectory:YES];
+}
+
+- (NSURL *)databaseURLDirectory
+{
+    return [self appSupportURLForKey:CMDatabaseDirectoryKey
+                       defaultSuffix:@"Databases"];
+}
+
+- (void)setDatabaseURLDirectory:(NSURL *)audioCaptureURLDirectory
+{
+    [self setAppSupportURLForKey:CMDatabaseDirectoryKey
+               withDefaultSuffix:@"Databases"
+                           toURL:audioCaptureURLDirectory];
 }
 
 - (BOOL)createMachineDirectory
 {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:CMMachineDirectoryKey] == nil;
+    return [[NSUserDefaults standardUserDefaults] URLForKey:CMMachineDirectoryKey] == nil;
 }
 
 - (NSString *)machineDirectory
 {
-    return [self appSupportSubdirectoryForKey:CMMachineDirectoryKey
-                                defaultSuffix:@"Machines"];
+    return [self.machineURLDirectory path];
 }
 
 - (void)setMachineDirectory:(NSString *)directory
 {
-    [self setAppSupportSubdirectoryForKey:CMMachineDirectoryKey
-                        withDefaultSuffix:@"Machines"
-                              toDirectory:directory];
+    self.machineURLDirectory = [NSURL fileURLWithPath:directory
+                                          isDirectory:YES];
+}
+
+- (NSURL *)machineURLDirectory
+{
+    return [self appSupportURLForKey:CMMachineDirectoryKey
+                       defaultSuffix:@"Machines"];
+}
+
+- (void)setMachineURLDirectory:(NSURL *)audioCaptureURLDirectory
+{
+    [self setAppSupportURLForKey:CMMachineDirectoryKey
+               withDefaultSuffix:@"Machines"
+                           toURL:audioCaptureURLDirectory];
 }
 
 - (BOOL)createSnapshotDirectory
 {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:CMSnapshotDirectoryKey] == nil;
+    return [[NSUserDefaults standardUserDefaults] URLForKey:CMSnapshotDirectoryKey] == nil;
 }
 
 - (NSString *)snapshotDirectory
 {
-    return [self appSupportSubdirectoryForKey:CMSnapshotDirectoryKey
-                                defaultSuffix:@"Snapshots"];
+    return [self.snapshotURLDirectory path];
 }
 
 - (void)setSnapshotDirectory:(NSString *)directory
 {
-    [self setAppSupportSubdirectoryForKey:CMSnapshotDirectoryKey
-                        withDefaultSuffix:@"Snapshots"
-                              toDirectory:directory];
+    self.snapshotURLDirectory = [NSURL fileURLWithPath:directory
+                                           isDirectory:YES];
+}
+
+- (NSURL *)snapshotURLDirectory
+{
+    return [self appSupportURLForKey:CMSnapshotDirectoryKey
+                       defaultSuffix:@"Snapshots"];
+}
+
+- (void)setSnapshotURLDirectory:(NSURL *)audioCaptureURLDirectory
+{
+    [self setAppSupportURLForKey:CMSnapshotDirectoryKey
+               withDefaultSuffix:@"Snapshots"
+                           toURL:audioCaptureURLDirectory];
 }
 
 #pragma mark Emulation
 
+- (void)setCassetteURLDirectory:(NSURL *)cassetteURLDirectory
+{
+    [[NSUserDefaults standardUserDefaults] setURL:cassetteURLDirectory
+                                           forKey:CMCassetteDirectoryKey];
+}
+
+- (NSURL *)cassetteURLDirectory
+{
+    return [[NSUserDefaults standardUserDefaults] URLForKey:CMCassetteDirectoryKey];
+}
+
 - (void)setCassetteDirectory:(NSString *)directory
 {
-    [[NSUserDefaults standardUserDefaults] setObject:directory
-                                              forKey:CMCassetteDirectoryKey];
+    self.cassetteURLDirectory = [NSURL fileURLWithPath:directory
+                                           isDirectory:YES];
 }
 
 - (NSString *)cassetteDirectory
 {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:CMCassetteDirectoryKey];
+    return [self.cassetteURLDirectory path];
+}
+
+- (void)setCartridgeURLDirectory:(NSURL *)cassetteURLDirectory
+{
+    [[NSUserDefaults standardUserDefaults] setURL:cassetteURLDirectory
+                                           forKey:CMCartridgeDirectoryKey];
+}
+
+- (NSURL *)cartridgeURLDirectory
+{
+    return [[NSUserDefaults standardUserDefaults] URLForKey:CMCartridgeDirectoryKey];
 }
 
 - (void)setCartridgeDirectory:(NSString *)directory
 {
-    [[NSUserDefaults standardUserDefaults] setObject:directory
-                                              forKey:CMCartridgeDirectoryKey];
+    self.cartridgeURLDirectory = [NSURL fileURLWithPath:directory
+                                            isDirectory:YES];
 }
 
 - (NSString *)cartridgeDirectory
 {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:CMCartridgeDirectoryKey];
+    return [self.cartridgeURLDirectory path];
+}
+
+- (void)setDiskURLDirectory:(NSURL *)cassetteURLDirectory
+{
+    [[NSUserDefaults standardUserDefaults] setURL:cassetteURLDirectory
+                                           forKey:CMDiskDirectoryKey];
+}
+
+- (NSURL *)diskURLDirectory
+{
+    return [[NSUserDefaults standardUserDefaults] URLForKey:CMDiskDirectoryKey];
 }
 
 - (void)setDiskDirectory:(NSString *)directory
 {
-    [[NSUserDefaults standardUserDefaults] setObject:directory
-                                              forKey:CMDiskDirectoryKey];
+    self.diskURLDirectory = [NSURL fileURLWithPath:directory
+                                       isDirectory:YES];
 }
 
 - (NSString *)diskDirectory
 {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:CMDiskDirectoryKey];
+    return [self.diskURLDirectory path];
 }
 
 @end

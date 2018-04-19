@@ -103,7 +103,7 @@ static CMGamepadConfiguration *_defaultGamepadConfig;
 
 - (NSString *) vendorProductString
 {
-	return [NSString stringWithFormat:@"%08lx", _vendorProductId];
+    return [NSString stringWithFormat:@"%08x", (unsigned int)_vendorProductId];
 }
 
 #pragma mark - NSCoding
@@ -112,7 +112,7 @@ static CMGamepadConfiguration *_defaultGamepadConfig;
 {
     if ((self = [self init]))
     {
-		_vendorProductId = [decoder decodeIntegerForKey:@"vendorProductId"];
+		_vendorProductId = (UInt32)[decoder decodeIntegerForKey:@"vendorProductId"];
 		_up = [decoder decodeIntegerForKey:@"up"];
 		_down = [decoder decodeIntegerForKey:@"down"];
 		_left = [decoder decodeIntegerForKey:@"left"];
