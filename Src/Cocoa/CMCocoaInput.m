@@ -199,7 +199,7 @@ static NSArray<NSString *> *defaultsToObserve;
     [configurations enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
     {
         CMGamepadConfiguration *config = [NSKeyedUnarchiver unarchiveObjectWithData:obj];
-		[self->joypadConfigurations setObject:config
+        [self->joypadConfigurations setObject:config
                                  forKey:@([config vendorProductId])];
     }];
 #ifdef DEBUG
